@@ -1,7 +1,6 @@
 """
-	@author Tuan Dinh tuandinh@cs.wisc.edu
-	@date 08/14/2019
-	Loading data
+	@author Yunyang/Eric/Tuan
+	@date 06/24/2020
 """
 
 import argparse

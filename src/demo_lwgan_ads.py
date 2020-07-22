@@ -1,6 +1,6 @@
 """
-    @author Tuan Dinh tuandinh@cs.wisc.edu
-    @date 08/14/2019
+    @author Yunyang/Eric/Tuan
+    @date 06/25/2020
     Training 2 signals together
 """
 
@@ -18,9 +18,6 @@ netG.apply(Helper.weights_init)
 
 optimizerD = optim.Adam(netD.parameters(), lr=args.lr_d, betas=(0.5, 0.9))
 optimizerG = optim.Adam(netG.parameters(), lr=args.lr_g, betas=(0.5, 0.9))
-
-# optimizerD = optim.RMSprop(netD.parameters(), lr=args.lr, weight_decay=1e-4)
-# optimizerG = optim.RMSprop(netG.parameters(), lr=args.lr, weight_decay=1e-4)
 
 #### ==================Training======================
 def trainD(batch_data, penalty=False):
@@ -40,7 +37,6 @@ def trainD(batch_data, penalty=False):
     fakeD = netD(fake_data)
     if penalty:
         # train with gradient penalty
-        # gradient_penalty = get_gradient_penalty(netD, real_data_zero.data, fake_data.data)
         grad_penalty = get_gradient_penalty(netD, real_data_zero, fake_data)
     else:
         grad_penalty = None
@@ -74,9 +70,6 @@ for epoch in range(args.num_epochs):
         Helper.activate(netD)
         stepD = 0
         while stepD < args.critic_steps and step < total_step - 1:
-            # for p in netD.parameters():
-            #   p.data.clamp_(-0.1, 0.1)
-
             optimizerD.zero_grad()
             realD, fakeD, grad_penalty = trainD(next(data_iter), penalty=True)
             realD = realD.mean()
@@ -143,11 +136,6 @@ for epoch in range(args.num_epochs):
             fake_rs += fake_r
             print('GAN-generated Recall: {:.4f}, Precision: {:.4f}'.format(fake_rs, fake_ps))
             
-            #data_fake_real = {'adni_fake_ads': cns_np, 'adni_fake_cns': rescaled_cns_fake.cpu().data.numpy(), 'adni_true_cns':CNs[:args.num_cns], 'adni_true_ads':ADs[:args.num_ads]}
-            #np.save(out_fake_real_data_path, data_fake_real)
-            #spio.savemat(mat_out_fake_real_data_path, mdict=data_fake_real)
-
-
         # Visualizations
         for i in range(k):
             v_idx = significant_vertices[i]
@@ -186,5 +174,3 @@ for epoch in range(args.num_epochs):
         print('save models at epoch')
         torch.save(netG.state_dict(), netG_path)
         torch.save(netD.state_dict(), netD_path)
-
-        # from IPython import embed; embed()

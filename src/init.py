@@ -1,7 +1,6 @@
 """
-	@author Tuan Dinh tuandinh@cs.wisc.edu
-	@date 08/14/2019
-	Loading data
+	@author Yunyang/Eric/Tuan
+	@date 06/24/2020
 """
 
 import os, sys, time
@@ -50,41 +49,18 @@ Helper.mkdir(sample_path)
 logf = open(log_path, 'w')
 
 #####====================== Data ================######
-#os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
-#os.environ["CUDA_VISIBLE_DEVICES"]=str(args.gpu)
 device = args.gpu
 ADs, CNs, A, L = Provider.load_data(args.dataset_path, dataset_name)
-
-# import matplotlib.pyplot as plt
-# bins = np.linspace(0, 5, 100)
-# plt.subplot(121)
-# plt.hist(ADs.flatten(), bins=bins)
-# plt.subplot(122)
-# plt.hist(CNs.flatten(), bins=bins)
-# plt.show()
 
 if args.mode_dataset == 1:
 	A = Helper.sparse_mx_to_torch_sparse_tensor(A)
 	L = L.todense()
-# elif not(args.mode_dataset == 3):
-# 	ADs = (ADs + 5)/15
-# 	CNs = (CNs + 5)/15
 
 L = torch.tensor(L, dtype=torch.float32).to(device)
 A = torch.tensor(A, dtype=torch.float32).to(device)
 
-# data_mean = np.mean(CNs)
-# data_stddev = np.std(CNs)
-# scaling_fn = lambda x: (x - data_mean) / data_stddev
-# rescaling_fn = lambda y: y * data_stddev + data_mean
-
 nsamples = args.num_cns
-#num_training_samples = int(args.train_fraction * CNs.shape[0])
 num_training_samples = args.num_cns
-# CNs_ttest = CNs[:nsamples, :]
-# cn_data = CNs[nsamples:nsamples+num_training_samples, :]
-# CNs_ttest = CNs[:num_training_samples]
-# cn_data = CNs[:num_training_samples]
 CNs_ttest = CNs[:nsamples]
 cn_data = CNs[:nsamples]
 
@@ -112,10 +88,6 @@ trainset = TensorDataset(train_data)
 dataloader = DataLoader(trainset, batch_size=args.batch_size, shuffle=True, drop_last=args.flag_droplast, num_workers=int(args.num_workers))
 
 num_training_samples = args.total_ads
-# print(np.any(np.isnan(ADs)))
-# print(np.any(np.isnan(CNs_ttest)))
-
-# print(ADs)
 
 # t-test
 ttester = TTester(ADs[:args.total_ads])
@@ -144,9 +116,6 @@ if args.flag_mugap:
 
 ####====== Modules =======####
 def log_loss(epoch, step, total_step, D_cost, G_cost,  start_time):
-	# convert
-	# loss_d = D_cost.cpu().data.numpy()
-	# loss_g = G_cost.cpu().data.numpy()
 	loss_d = D_cost
 	loss_g = G_cost
 	# msg
@@ -184,8 +153,6 @@ def get_ttest(labels, preds, log=False):
 
 def generate_sample(gen, nsamples):
 	noise = torch.randn(nsamples, args.embed_size).to(device)
-	# with torch.no_grad():
-	# 	noisev = autograd.Variable(noise)
 	return gen(noise)
 
 def get_gradient_penalty(netD, real_data, fake_data):

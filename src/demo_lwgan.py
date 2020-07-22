@@ -1,6 +1,6 @@
 """
-	@author Tuan Dinh tuandinh@cs.wisc.edu
-	@date 08/14/2019
+	@author Yunyang/Eric/Tuan 
+	@date 06/24/2020
 	Training 2 signals together
 """
 
@@ -18,8 +18,6 @@ netG.apply(Helper.weights_init)
 optimizerD = optim.Adam(netD.parameters(), lr=args.lr_d, betas=(0.5, 0.9))
 optimizerG = optim.Adam(netG.parameters(), lr=args.lr_g, betas=(0.5, 0.9))
 
-# optimizerD = optim.RMSprop(netD.parameters(), lr=args.lr, weight_decay=1e-4)
-# optimizerG = optim.RMSprop(netG.parameters(), lr=args.lr, weight_decay=1e-4)
 
 #### ==================Training======================
 def trainD(batch_data, penalty=False):
@@ -39,7 +37,6 @@ def trainD(batch_data, penalty=False):
 	fakeD = netD(fake_data)
 	if penalty:
 		# train with gradient penalty
-		# gradient_penalty = get_gradient_penalty(netD, real_data_zero.data, fake_data.data)
 		grad_penalty = get_gradient_penalty(netD, real_data_zero, fake_data)
 	else:
 		grad_penalty = None
@@ -73,9 +70,6 @@ for epoch in range(args.num_epochs):
 		Helper.activate(netD)
 		stepD = 0
 		while stepD < args.critic_steps and step < total_step - 1:
-			# for p in netD.parameters():
-			# 	p.data.clamp_(-0.1, 0.1)
-
 			optimizerD.zero_grad()
 			realD, fakeD, grad_penalty = trainD(next(data_iter), penalty=True)
 			realD = realD.mean()
@@ -171,5 +165,3 @@ for epoch in range(args.num_epochs):
 		print('save models at epoch')
 		torch.save(netG.state_dict(), netG_path)
 		torch.save(netD.state_dict(), netD_path)
-
-		# from IPython import embed; embed()
