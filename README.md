@@ -10,7 +10,7 @@ ADNI data can be downloaded at [here](https://drive.google.com/drive/folders/1aa
 src folder. 
 
 # Trained models
-Train models can be downloaded at [here](https://drive.google.com/drive/folders/1aa5PCcO6Q5W91BERt6yiSImG-dkhKHmY?usp=sharing).
+Trained models can be downloaded at [here](https://drive.google.com/drive/folders/1aa5PCcO6Q5W91BERt6yiSImG-dkhKHmY?usp=sharing).
 
 # Usage
 cd src && python demo_lwgan.py --flag_ttest --num_ads 183 --num_cns 293 --lr_g 0.00001 --lr_d 0.00005 --gpu 0 --flag_reg --result_path ./results/lwgan_adni_293_reg
