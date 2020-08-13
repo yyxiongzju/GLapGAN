@@ -6,7 +6,8 @@ This is an PyTorch implementation of GLapGAN as described in the paper [Performi
 2. initial learning rates (1e-5, 5*1e-5) for generator and discriminator
 
 # Datasets
-ADNI data can be downloaded at [here](https://drive.google.com/drive/folders/1aa5PCcO6Q5W91BERt6yiSImG-dkhKHmY?usp=sharing). Then put it under
+Processed ADNI data can not be released without special permission in public. Please email us for the whole processed adni data. 
+Here, we provide two samples (one health and one disease) for understanding the input data. The two-sample ADNI data can be downloaded at [here](https://drive.google.com/drive/folders/1aa5PCcO6Q5W91BERt6yiSImG-dkhKHmY?usp=sharing). Then put it under
 src folder. 
 
 # Trained models
