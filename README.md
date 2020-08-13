@@ -17,4 +17,8 @@ Trained models can be downloaded at [here](https://drive.google.com/drive/folder
 cd src && python demo_lwgan.py --flag_ttest --num_ads 183 --num_cns 293 --lr_g 0.00001 --lr_d 0.00005 --gpu 0 --flag_reg --result_path ./results/lwgan_adni_293_reg
 
 # Reference
-
+@article{dinhperforming,
+  title={Performing Group Difference Testing on Graph Structured Data from GANs: Analysis and Applications in Neuroimaging},
+  author={Dinh, Tuan Quang and Xiong, Yunyang and Huang, Zhichun and Vo, Tien and Mishra, Akshay and Kim, Won Hwa and Ravi, Sathya and Singh, Vikas},
+  journal={IEEE transactions on pattern analysis and machine intelligence}
+}
